@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgweb
+  namespace: NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgweb
+  template:
+    metadata:
+      labels:
+        app: pgweb
+    spec:
+      containers:
+      - name: pgweb
+        imagePullPolicy: Always
+        image: sosedoff/pgweb:0.14.1
+        ports:
+          - containerPort: 8081
+            name: http
+        env:
+        - name: DATABASE_URL
+          value: postgres://USERNAME:PASSWORD@NAME.XXXXXXXXXXXX.ap-northeast-1.rds.amazonaws.com:5432/DBNAME?sslmode=disable
+      restartPolicy: Always
